@@ -41,12 +41,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+        public Camera cam;
 
         // Use this for initialization
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
-            m_Camera = Camera.main;
+            m_Camera = cam;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
             m_FovKick.Setup(m_Camera);
             m_HeadBob.Setup(m_Camera, m_StepInterval);
@@ -96,7 +97,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             float speed;
             Vector3 moveDirection;
-            Transform cameraTransform = Camera.main.transform;
+            Transform cameraTransform = m_Camera.transform;
             Vector3 forward = cameraTransform.TransformDirection(Vector3.forward);
             forward.y = 0f;
             forward = forward.normalized;

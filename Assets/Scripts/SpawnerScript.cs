@@ -9,26 +9,17 @@ public class SpawnerScript : MonoBehaviour {
     public bool shouldSpawn;
     public bool randomness;
     public int spawners;
-    public float power = 2.0f;
+    public bool isPlayer = false;
 
 	void Update ()
 	{
-		if (shouldSpawn && Time.time > nextSpawn && Input.GetButtonDown("Fire1"))
+		if (shouldSpawn && Time.time > nextSpawn)
 		{
             float num = Random.Range(0, spawners);
             nextSpawn = Time.time + spawnRate;
 
-            if (num == 0)
-            {
-                GameObject bullet = (GameObject) Instantiate(spawnie, transform.position, Camera.main.transform.rotation);
-
-                bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * power;
-
-                // destroy bullet after 2 seconds
-                Destroy(bullet, 2.0f);
-
-            }
-           
+            if(randomness && num != 0 || !randomness)
+                Instantiate(spawnie, transform.position, transform.rotation);
 		}
 	}		
 } 
