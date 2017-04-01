@@ -9,7 +9,7 @@ public class SpawnerScript : MonoBehaviour {
     public bool shouldSpawn;
     public bool randomness;
     public int spawners;
-
+    public bool isPlayer = false;
 
 	void Update ()
 	{
@@ -17,11 +17,9 @@ public class SpawnerScript : MonoBehaviour {
 		{
             float num = Random.Range(0, spawners);
             nextSpawn = Time.time + spawnRate;
-            if (num == 0)
-            {
+
+            if(randomness && num != 0 || !randomness)
                 Instantiate(spawnie, transform.position, transform.rotation);
-            }
-           
 		}
 	}		
 } 
