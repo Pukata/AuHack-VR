@@ -28,6 +28,7 @@ public class EnemyMovement : MonoBehaviour
         if (collision.gameObject.tag == "PlayerShot"){
             health--;
             Destroy(collision.gameObject);
+
             if (health <= 0)
             {
                 Destroy(gameObject);
