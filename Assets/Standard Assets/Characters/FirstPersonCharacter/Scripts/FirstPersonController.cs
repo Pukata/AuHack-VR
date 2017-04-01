@@ -95,18 +95,38 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void FixedUpdate()
         {
             float speed;
+            Vector3 moveDirection;
+            Transform cameraTransform = Camera.main.transform;
+            Vector3 forward = cameraTransform.TransformDirection(Vector3.forward);
+            forward.y = 0f;
+            forward = forward.normalized;
+            Vector3 right = new Vector3(forward.z, 0.0f, -forward.x);
+            float h, v;
+
             GetInput(out speed);
+            // Move along the direction you are looking at
+            forward = cameraTransform.TransformDirection(Vector3.forward);
+            forward.y = 0;
+            forward = forward.normalized;
+            right = new Vector3(forward.z, 0, -forward.x);
+            h = Input.GetAxis("Horizontal");
+            v = Input.GetAxis("Vertical");
+
+            moveDirection = (h * right + v * forward).normalized;
+            moveDirection *= speed;
+
+
             // always move along the camera forward as it is the direction that it being aimed at
-            Vector3 desiredMove = transform.forward*m_Input.y + transform.right*m_Input.x;
+            Vector3 desiredMove = transform.forward*m_Input.y + transform.right*m_Input.x + (Vector3.forward * speed);
 
             // get a normal for the surface that is being touched to move along it
             RaycastHit hitInfo;
             Physics.SphereCast(transform.position, m_CharacterController.radius, Vector3.down, out hitInfo,
                                m_CharacterController.height/2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-            desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
+            moveDirection = Vector3.ProjectOnPlane(moveDirection, hitInfo.normal).normalized;
 
-            m_MoveDir.x = desiredMove.x*speed;
-            m_MoveDir.z = desiredMove.z*speed;
+            m_MoveDir.x = moveDirection.x*speed;
+            m_MoveDir.z = moveDirection.z*speed;
 
 
             if (m_CharacterController.isGrounded)
