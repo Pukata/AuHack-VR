@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/PlayerView.unity
-  isLoaded: 1
-  isActive: 1
