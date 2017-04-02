@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class ShotSpawnerScript : MonoBehaviour {
     public GameObject spawnie;
-    public float spawnRate;
-    private float nextSpawn;
+    public Camera cam;
 
     void Update()
     {
-        if (Time.time > nextSpawn)
+        if (Input.GetButtonDown("Fire1"))
         {
-            nextSpawn = Time.time + spawnRate;
-
-            if (Input.GetButtonDown("Fire1"))
-            {
-                Instantiate(spawnie, transform.position, transform.rotation);
-            }
+            Debug.Log("Fired triggered");
+            Instantiate(spawnie, transform.position, transform.rotation);
         }
     }
 }
